@@ -1,5 +1,12 @@
+//pallomeri
+float yoff = 0.0;        // 2nd dimension of perlin noise
+int palloX = 300;
+int palloY = 160;
 
-int numBalls = 12;
+
+
+//valoviivat
+int numBalls = 50;
 float spring = 0.5;
 float gravity = 0.00;
 float friction = -0.9;
@@ -7,26 +14,57 @@ Ball[] balls = new Ball[numBalls];
 
 void setup() {
   
-  size(640, 360);
+  size(1920, 1080);
   for (int i = 0; i < numBalls; i++) {
     balls[i] = new Ball(random(width), random(height), random(30, 70), i, balls);
-   
+   frameRate(30);
   }
     
   
 }
 
 void draw() {
+
   background(0);
+  if(millis()<10000){
   for (Ball ball : balls) {
-    ball.collide();
-    ball.move();
     ball.display();  
   }
+  }
+  
+  if(millis()>10000){
+    background(0, 255, 0);
+  
+  // We are going to draw a polygon out of the wave points
+  beginShape(); 
+  
+  float xoff = 0;       // Option #1: 2D Noise
+  // float xoff = yoff; // Option #2: 1D Noise
+  
+  // Iterate over horizontal pixels
+  for (float x = 0; x <= width; x += 10) {
+    // Calculate a y value according to noise, map to 
+    float y = map(noise(xoff, yoff), 0, 1, 400,800); // Option #1: 2D Noise
+    // float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
+    
+    // Set the vertex
+    vertex(x, y); 
+    vertex(x, y-310);
+    // Increment x dimension for noise
+    xoff += 0.05;  
+}
+  // increment y dimension for noise
+  yoff += 0.01;
+  vertex(width, height);
+  vertex(0, height);
+  endShape(CLOSE);
+  pallo();
+
+  }
+
 }
 
 class Ball {
-  
   float x, y;
   float diameter;
   float vx = 0;
@@ -43,53 +81,31 @@ class Ball {
     others = oin;
   }
   
-  void collide() {
-    for (int i = id + 1; i < numBalls; i++) {
-      float dx = others[i].x - x;
-      float dy = others[i].y - y;
-      float distance = sqrt(dx*dx + dy*dy);
-      float minDist = others[i].diameter/2 + diameter/2;
-      if (distance < minDist) { 
-        float angle = atan2(dy, dx);
-        float targetX = x + cos(angle) * minDist;
-        float targetY = y + sin(angle) * minDist;
-        float ax = (targetX - others[i].x) * spring;
-        float ay = (targetY - others[i].y) * spring;
-        vx -= ax;
-        vy -= ay;
-        others[i].vx += ax;
-        others[i].vy += ay;
-      }
-    }   
-  }
-  
-  void move() {
-    vy += gravity;
-    x += vx;
-    y += vy;
-    if (x + diameter/2 > width) {
-      x = width - diameter/2;
-      vx *= friction; 
-    }
-    else if (x - diameter/2 < 0) {
-      x = diameter/2;
-      vx *= friction;
-    }
-    if (y + diameter/2 > height) {
-      y = height - diameter/2;
-      vy *= friction; 
-    } 
-    else if (y - diameter/2 < 0) {
-      y = diameter/2;
-      vy *= friction;
-    }
-  
-  }
-  
   void display() {
-    line(0, 300, random(1000), random(400));
-    //ellipse(random(100), random(100), random(100), random(100));
+    line(0, 1000, random(2000), random(800));
     stroke(random(255), random(255), random(255));
-    fill(random(255), random(255), random(255)); 
+    fill(random(255), random(255), random(255));
   }
+}
+
+boolean jee = false;
+void pallo() {
+  if(palloY>200){
+  jee = true;}
+  if(palloY<100){
+  jee = false;
+  }
+  
+  if(jee==false){
+  ellipse(960, palloY, 200, 200);
+ // fill(random(255),random(255),random(255));
+  palloY++;
+  }
+  
+  if(jee == true){
+  ellipse(960, palloY, 200, 200);
+ // fill(random(255),random(255),random(255));
+  palloY--;
+  }
+  
 }

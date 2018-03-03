@@ -1,6 +1,6 @@
  
 int num = 3000;
-int range = 60;
+int range = 200;
 
 float[] ax = new float[num];
 float[] ay = new float[num]; 
@@ -8,7 +8,7 @@ float[] ay = new float[num];
 
 void setup() 
 {
-  size(640, 360);
+  size(1920, 1080);
   for(int i = 0; i < num; i++) {
     ax[i] = width/2;
     ay[i] = height/2;
@@ -33,7 +33,7 @@ void draw()
   // Constrain all points to the screen
   ax[num-1] = constrain(ax[num-1], 0, width);
   ay[num-1] = constrain(ay[num-1], 0, height);
-  ellipse(ax[num-1], ay[num-1], 25, 25);
+  ellipse(ax[num-1], ay[num-1], 50, 50);
   
   // Draw a line connecting the points
   for(int i=1; i<num; i++) {    
@@ -42,5 +42,5 @@ void draw()
     strokeWeight(2);
     line(ax[i-1], ay[i-1], ax[i], ay[i]);
   }
-  delay(30);
+  
 }

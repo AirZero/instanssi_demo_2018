@@ -1,4 +1,5 @@
 import hypermedia.net.*;
+import java.nio.ByteBuffer;
 
 int PORT_RX=0x26B5;
 String HOST_IP = "192.168.104.131";//IP Address of the PC in which this App is running
@@ -12,9 +13,12 @@ float spring = 0.5;
 float gravity = 0.00;
 float friction = -0.9;
 Ball[] balls = new Ball[numBalls];
-char data[] = {1, 0, 116, 105, 101, 116, 111, 0, 1, 3, 0, 0, 0, 255};
-//char data[] = {1, 0, 0, 255, 255, 255};
+//char data[] = {1, 0, 116, 0, 255, 0, 0, 0, 116, 0, 255, 0, 0};
+//byte data[] = {1, 0, 0, 112, 122, 122};
 char valo = 0;
+ByteBuffer out = ByteBuffer.allocateDirect(8);
+ByteBuffer bb = ByteBuffer.wrap(new byte[] {1, 0, 0, 111, 0, 0});
+String jee = bb.toString();
 
 void setup() {
   udp= new UDP(this, PORT_RX, HOST_IP);
@@ -26,21 +30,16 @@ void setup() {
   
   
   for (int i = 0; i < numBalls; i++) {
+    //bb = ByteBuffer.wrap(data[]{});
+    String jee = bb.toString();
     balls[i] = new Ball(random(width), random(height), random(30, 70), i, balls);
-    
-    //valopaketin lähetys
-    //String valot = "1 + i +0, 255, 255, 255";
-    //String valot = "1, 0, 116, 105, 101, 116, 111, 0";
-    //String valot = "1, 0, 116, 105, 101, 116, 111, 0, 1, 3, 0, 100, 100, 100";
-    //Byte[] valot = {1, 0, 116, 105, 101, 116, 111, 0, 1, 3, 0, 255, 255, 255};  
-    //Byte[] valot = {1, 0, 116, 105, 101, 116, 111, 0, 1, 3, 0, 100, 100, 100};
     valo = char(i);
-    
-    data[10] = valo;
+    println(valo);
+    //data[2] = valo;
     //data[13] = char(i*3);
-    String str2 = new String(data);
-    udp.send(str2, "valot.party", 9909);
-    println(data + "valot.party" + 9909);
+    //String str2 = new String(data);
+    udp.send(bb, "valot.party", 9909);
+    //println(data + "valot.party" + 9909);
   }
     
   
