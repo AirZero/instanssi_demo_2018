@@ -5,6 +5,8 @@ SoundFile file;
 //PShape pieta;
 int aloitusaika = 25000; 
 
+float naytonkoko = 0.5;
+
 //kimpoviivat 
 int num = 3000;
 int range = 200;
@@ -30,16 +32,16 @@ void setup() {
   file = new SoundFile(this, "SoundBox-music.wav");
   file.play();
   
-  size(1920, 1080);
+  size(960, 540);
   for (int i = 0; i < numBalls; i++) {
-    balls[i] = new Ball(random(width), random(height), random(30, 70), i, balls);
+    balls[i] = new Ball(random(width)*naytonkoko, random(height)*naytonkoko, random(30, 70), i, balls);
    frameRate(30);
   }
   
   //kimpoviivat
     for(int i = 0; i < num; i++) {
-    ax[i] = width/2;
-    ay[i] = height/2;
+    ax[i] = naytonkoko*width/2;
+    ay[i] = naytonkoko*height/2;
   }
     
   
@@ -82,15 +84,15 @@ class Ball {
   
  
   Ball(float xin, float yin, float din, int idin, Ball[] oin) {
-    x = xin;
-    y = yin;
-    diameter = din;
+    x = naytonkoko*xin;
+    y = naytonkoko*yin;
+    diameter = naytonkoko*din;
     id = idin;
     others = oin;
   }
   
   void display() {
-    line(0, 1000, random(2000), random(800));
+    line(0, naytonkoko*1000, random(2000), random(800));
     stroke(random(255), random(255), random(255));
     fill(random(255), random(255), random(255));
   }
@@ -98,20 +100,20 @@ class Ball {
 
 boolean jee = false;
 void pallo() {
-  if(palloY>200){
+  if(palloY>naytonkoko*200){
   jee = true;}
-  if(palloY<100){
+  if(palloY<naytonkoko*100){
   jee = false;
   }
   
   if(jee==false){
-  ellipse(960, palloY, 200, 200);
+  ellipse(naytonkoko*960, naytonkoko*palloY, naytonkoko*200, naytonkoko*200);
  // fill(random(255),random(255),random(255));
   palloY++;
   }
   
   if(jee == true){
-  ellipse(960, palloY, 200, 200);
+  ellipse(naytonkoko*960, naytonkoko*palloY, naytonkoko*200, naytonkoko*200);
  // fill(random(255),random(255),random(255));
   palloY--;
   }
@@ -142,7 +144,7 @@ void efekti2(){
     
     // Set the vertex
     vertex(x, y); 
-    vertex(x, y-310);
+    vertex(x, naytonkoko*(y-310));
     // Increment x dimension for noise
     xoff += 0.05;  
 }
@@ -162,8 +164,8 @@ void efekti3(){
   stroke(55, 0, 255);
   // Shift all elements 1 place to the left
   for(int i = 1; i < num; i++) {
-    ax[i-1] = ax[i];
-    ay[i-1] = ay[i];
+    ax[i-1] = naytonkoko*ax[i];
+    ay[i-1] = naytonkoko*ay[i];
   }
 
   // Put a new value at the end of the array
@@ -186,16 +188,16 @@ void efekti3(){
 
 void efekti4(){
      textSize(90);
-     text("Moi", 100, millis()/10); 
+     text("Moi", naytonkoko*100, naytonkoko*millis()/10); 
      fill(0, 102, 153);
      
      if(millis()>3000){
-       text("kaikki", 400, millis()/10);
+       text("kaikki", naytonkoko*400, naytonkoko*millis()/10);
      fill(0, 102, 153);
      }
     
      if(millis()>7000){
-       text("ja ", 850, millis()/10);
+       text("ja ", 850*naytonkoko, naytonkoko*millis()/10);
      }
      
      if(millis()>10000){
@@ -203,15 +205,15 @@ void efekti4(){
      efekti1();
      }
        
-       text("Yaamboo, Teistiz, Zeggo, BFlorry, Logio, jyrama, fuksit", -millis()/10 + 2900, 650);
-       text("RazorNova, KingThrill, Zouppen, Zipola, Maakuth, k2h", -millis()/10 + 2900, 800);
+       text("Yaamboo, Teistiz, Zeggo, BFlorry, Logio, jyrama, fuksit", -millis()/10 + 2900*naytonkoko, 650*naytonkoko);
+       text("RazorNova, KingThrill, Zouppen, Zipola, Maakuth, k2h", -millis()/10 + 2900*naytonkoko, 800*naytonkoko);
        
      }
      
      if(millis()>(aloitusaika+40000)&&millis()<(aloitusaika+50000)){
      efekti2();
-     textSize(90);
-     text("Koodi: AirZero, Biisi: Tinuzka", 100, 100);
+     textSize(90*naytonkoko);
+     text("Koodi: AirZero, Biisi: Tinuzka", 100*naytonkoko, 100*naytonkoko);
      }
      
      if(millis()>(aloitusaika+50000)){
